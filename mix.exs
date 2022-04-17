@@ -1,28 +1,58 @@
 defmodule UeberauthSpotify.MixProject do
   use Mix.Project
 
+  @source_url "https://github.com/zoedsoupe/ueberauth_spotify"
+  @version "0.1.0"
+
   def project do
     [
       app: :ueberauth_spotify,
-      version: "0.1.0",
-      elixir: "~> 1.13",
+      version: @version,
+      name: "Üeberauth Spotify",
+      elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      package: package(),
+      deps: deps(),
+      docs: docs()
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger, :oauth2, :ueberauth]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:oauth2, "~> 1.0 or ~> 2.0"},
+      {:ueberauth, "~> 0.7.0"},
+      {:mox, "~> 1.0", only: :test},
+      {:ex_doc, ">= 0.0.0", only: [:dev], runtime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+    ]
+  end
+
+  defp docs do
+    [
+      extras: ["CHANGELOG.md", "CONTRIBUTING.md", "README.md"],
+      main: "readme",
+      source_url: @source_url,
+      homepage_url: @source_url,
+      formatters: ["html"]
+    ]
+  end
+
+  defp package do
+    [
+      description: "An Uberauth strategy for Spotify authentication.",
+      files: ["lib", "mix.exs", "README.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE"],
+      maintainers: ["zoedsoupe"],
+      licenses: ["MIT"],
+      links: %{
+        Changelog: "https://hexdocs.pm/ueberauth_spotify/changelog.html",
+        GitHub: @source_url
+      }
     ]
   end
 end
